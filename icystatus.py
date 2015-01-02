@@ -47,7 +47,23 @@ def fetchStatus(urls = []):
         else: 
             StreamUrl = meta['StreamUrl']
 
-        status = "{0} :: {1}".format(StreamUrl, meta['StreamTitle'])
+        # Use IcyName for the name if it exists
+        name = StreamUrl
+        
+        #if meta.has_key('icy-name'): name = meta['icy-name']
+        if 'icy-name' in meta['headers']:
+            name = meta['headers']['icy-name']
+            if ':' in name:
+                name = name.split(':', 1)[0]
+        
+
+        #status = "{0} :: {1}".format(StreamUrl, meta['StreamTitle'])
+        
+        status = { 
+            'StreamUrl': StreamUrl,  
+            'CurrentTrack': meta['StreamTitle'], 
+            'Name' : name
+        }
         
         response.append( status )
     return response
