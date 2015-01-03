@@ -36,15 +36,32 @@ class IcyMeta:
         response = urllib2.urlopen(request)
         
         # HTTP Status
-        status = response.readline()
-        statusCode = int(status.split(' ')[1].rstrip())
+
+        #pprint.pprint(response.info().headers )
+
+#        print len(response.info().headers)
+
+
+        statusCode = response.getcode()
+        #status = response.readline()
+        #statusCode = int(status.split(' ')[1].rstrip())
 
         if statusCode != 200:
             raise Exception('Exepcted a 200 response code but got: %s ' % statusCode )
 
         # Parse headers
+        # If no headers were parsed by urllib2, then attempt to parse manually. Some servers return ICY instead of HTTP
+        if  len(response.info().headers) == 0:
+            # This is an ICY 200 response
+            status = response.readline()
+            rawHeaders = response
+            #pprint.pprint(rawHeaders)
+        else:
+            # This is an HTTP 200 response
+            rawHeaders = response.info().headers
+
         headers = {}
-        for line in response:
+        for line in rawHeaders:
             if line == "\r\n": break
             key, value = line.rstrip().split(':', 1)
             headers[key] = value

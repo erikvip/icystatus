@@ -90,7 +90,7 @@ class icyStatusGui:
         urls = [
         'http://205.164.62.15:6900',
         'http://108.61.73.115:8052',
-        #'http://listen.radionomy.com/AdultAlternative'
+        'http://listen.radionomy.com/AdultAlternative'
         ]
 
         stats = fetchStatus(urls)
