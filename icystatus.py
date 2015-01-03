@@ -67,7 +67,8 @@ def fetchStatus(urls = []):
         status = { 
             'StreamUrl': StreamUrl,  
             'CurrentTrack': meta['StreamTitle'], 
-            'Name' : name
+            'Name' : name, 
+            'LaunchUrl' : meta['LaunchUrl']
         }
         
         response.append( status )

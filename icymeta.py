@@ -79,7 +79,7 @@ class IcyMeta:
         metaPacket = response.read(metaLen)
 
         # Meta is now a semicolon delimited string of key=value pairs with quoting ''
-        meta = {'headers': headers, 'StreamTitle': '', 'StreamUrl': stream_url}
+        meta = {'headers': headers, 'StreamTitle': '', 'StreamUrl': stream_url, 'LaunchUrl': stream_url}
         for item in metaPacket.split(';'):
             if '=' in item:
                 key, value = item.rstrip().split('=', 1)

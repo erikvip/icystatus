@@ -7,6 +7,7 @@ from Tkinter import *
 import ttk
 
 from icystatus import fetchStatus
+from subprocess import Popen
 import pprint
 
 def main():
@@ -15,8 +16,6 @@ def main():
 
 
 class icyStatusGui:
-
-
 
     def __init__(self):
         self.root = Tk()
@@ -47,9 +46,9 @@ class icyStatusGui:
         self.statusFrame.pack(side=BOTTOM, fill=X)
 
         # Main listbox 
-        Label(self.grid, text="Station", width = 10).grid(row = 0, column = 0)
-        Label(self.grid, text="URL", width = 10).grid(row = 0, column = 1)
-        Label(self.grid, text="Current Track", width = 30).grid(row = 0, column = 2)
+        Label(self.grid, text="Station", width = 10, font="Verdana 10 bold").grid(row = 0, column = 0)
+        Label(self.grid, text="URL", width = 10, font="Verdana 10 bold").grid(row = 0, column = 1)
+        Label(self.grid, text="Current Track", width = 30, font="Verdana 10 bold").grid(row = 0, column = 2)
 
         self.icyStatus()
 
@@ -95,14 +94,23 @@ class icyStatusGui:
         stats = fetchStatus(urls)
       
         r = 1
+
         for i in stats:
-            Label(self.grid, text=i['Name'][:20], bg="#EEEEEE", anchor=W, justify=LEFT).grid(row = r, column=0)
-            Label(self.grid, text=i['StreamUrl'][:30]).grid(row = r, column=1)
-            Label(self.grid, text=i['CurrentTrack']).grid(row = r, column=2)
+            Label(self.grid, text=i['Name'][:30], bg="#EEEEEE").grid(row = r, column=0, sticky="w", padx=5, pady=1)
+            Label(self.grid, text=i['StreamUrl'][:30]).grid(row = r, column=1, sticky="w", padx=5, pady=1)
+            Label(self.grid, text=i['CurrentTrack']).grid(row = r, column=2, sticky="w")
+
+            Button(self.grid, text="Launch", command=lambda u=i['LaunchUrl']: self.launchStream(u)).grid(row = r, column=3)
 
             r = r + 1;
 
         self.status.set("Refresh complete")
+
+
+    def launchStream(self, url):
+        '''Launch stream in external player'''
+        Popen(['/usr/bin/vlc', url])
+
 
 
 if __name__ == "__main__":
