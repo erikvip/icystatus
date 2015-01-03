@@ -64,7 +64,8 @@ class IcyMeta:
 
         # Now read the variable length metadata packet, size of metaLen
         metaPacket = response.read(metaLen)
-
+        print metaPacket
+        
         # Meta is now a semicolon delimited string of key=value pairs with quoting ''
         meta = {'headers': headers, 'StreamTitle': '', 'StreamUrl': stream_url}
         for item in metaPacket.split(';'):

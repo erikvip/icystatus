@@ -14,7 +14,7 @@ def run():
     #meta = icymeta.fetchMeta('http://173.239.76.146:80');
     #pprint.pprint(meta)
     #print meta['StreamTitle']
-
+    '''
     urls = [
         'http://xstream1.somafm.com:8062',
         'http://xstream1.somafm.com:2800',
@@ -29,6 +29,11 @@ def run():
         'http://xstream1.somafm.com:2504',
         'http://xstream1.somafm.com:8884',
         'http://uwstream2.somafm.com:7770',
+    ]
+    '''
+    urls = [
+     #   'http://205.164.62.15:6900',
+        'http://108.61.73.115:8052',
     ]
 
     stats = fetchStatus(urls)
