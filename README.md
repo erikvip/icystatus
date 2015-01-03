@@ -11,6 +11,6 @@ This is a learning project to familiarize myself with Python/Tk, with a focus on
 * Tkinter GUI app
 * Best practice for settings / config files - cross platform
 * Cross platform database storage
-* 
+* Compiling to windows compatible EXE with no external dependancies
 
 
