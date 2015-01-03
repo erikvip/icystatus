@@ -28,6 +28,11 @@ class IcyMeta:
     def fetchMeta(self, stream_url):
         request = urllib2.Request(stream_url)        
         request.add_header('Icy-MetaData', 1)
+        
+        # Spoof the user agent...some streams will not report properly without a known user-agent
+        # Example: 181.fm http://108.61.73.115:8052  ... don't ask me why...
+        request.add_header('User-Agent', 'VLC/2.2.0-pre2 LibVLC/2.2.0-pre2')
+        
         response = urllib2.urlopen(request)
         
         # HTTP Status
@@ -64,8 +69,7 @@ class IcyMeta:
 
         # Now read the variable length metadata packet, size of metaLen
         metaPacket = response.read(metaLen)
-        print metaPacket
-        
+
         # Meta is now a semicolon delimited string of key=value pairs with quoting ''
         meta = {'headers': headers, 'StreamTitle': '', 'StreamUrl': stream_url}
         for item in metaPacket.split(';'):
