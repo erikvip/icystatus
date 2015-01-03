@@ -11,10 +11,8 @@ def run():
 
         Gather URLs to be read
     """
-    #meta = icymeta.fetchMeta('http://173.239.76.146:80');
-    #pprint.pprint(meta)
-    #print meta['StreamTitle']
-    '''
+
+
     urls = [
         'http://xstream1.somafm.com:8062',
         'http://xstream1.somafm.com:2800',
@@ -29,19 +27,21 @@ def run():
         'http://xstream1.somafm.com:2504',
         'http://xstream1.somafm.com:8884',
         'http://uwstream2.somafm.com:7770',
+        'http://205.164.62.15:6900',
+        'http://108.61.73.115:8052',
+        'http://listen.radionomy.com/AdultAlternative'
+
     ]
     '''
     urls = [
-        'http://205.164.62.15:6900',
+       'http://205.164.62.15:6900',
        'http://108.61.73.115:8052',
-        'http://listen.radionomy.com/AdultAlternative'
+       'http://listen.radionomy.com/AdultAlternative'
     ]
+    '''
 
     stats = fetchStatus(urls)
     pprint.pprint(stats)
-
-
-
 
 def fetchStatus(urls = []):
     response = []
@@ -56,7 +56,6 @@ def fetchStatus(urls = []):
         # Use IcyName for the name if it exists
         name = StreamUrl
         
-        #if meta.has_key('icy-name'): name = meta['icy-name']
         if 'icy-name' in meta['headers']:
             name = meta['headers']['icy-name']
             if ':' in name:

@@ -46,17 +46,12 @@ class icyStatusGui:
         self.statusLabel = Label(self.statusFrame, textvariable=self.status, anchor=W, justify=LEFT).pack(fill=X, expand=1)
         self.statusFrame.pack(side=BOTTOM, fill=X)
 
-
-
         # Main listbox 
         Label(self.grid, text="Station", width = 10).grid(row = 0, column = 0)
         Label(self.grid, text="URL", width = 10).grid(row = 0, column = 1)
         Label(self.grid, text="Current Track", width = 30).grid(row = 0, column = 2)
 
         self.icyStatus()
-
-        
-
 
         self.root.geometry("800x450+300+300")
         #self.root.config(menu=self.menubar)
@@ -70,7 +65,6 @@ class icyStatusGui:
         self.status.set("Refreshing...")
 
         # SomaFM URLs
-        '''
         urls = [
             'http://xstream1.somafm.com:8062',
             'http://xstream1.somafm.com:2800',
@@ -85,6 +79,10 @@ class icyStatusGui:
             'http://xstream1.somafm.com:2504',
             'http://xstream1.somafm.com:8884',
             'http://uwstream2.somafm.com:7770',
+            'http://205.164.62.15:6900',
+            'http://108.61.73.115:8052',
+            'http://listen.radionomy.com/AdultAlternative',
+
         ]
         '''
         urls = [
@@ -92,10 +90,10 @@ class icyStatusGui:
         'http://108.61.73.115:8052',
         'http://listen.radionomy.com/AdultAlternative'
         ]
+        '''
 
         stats = fetchStatus(urls)
       
-
         r = 1
         for i in stats:
             Label(self.grid, text=i['Name'][:20], bg="#EEEEEE", anchor=W, justify=LEFT).grid(row = r, column=0)
@@ -105,9 +103,6 @@ class icyStatusGui:
             r = r + 1;
 
         self.status.set("Refresh complete")
-
-
-
 
 
 if __name__ == "__main__":

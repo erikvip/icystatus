@@ -36,15 +36,7 @@ class IcyMeta:
         response = urllib2.urlopen(request)
         
         # HTTP Status
-
-        #pprint.pprint(response.info().headers )
-
-#        print len(response.info().headers)
-
-
         statusCode = response.getcode()
-        #status = response.readline()
-        #statusCode = int(status.split(' ')[1].rstrip())
 
         if statusCode != 200:
             raise Exception('Exepcted a 200 response code but got: %s ' % statusCode )
@@ -55,7 +47,6 @@ class IcyMeta:
             # This is an ICY 200 response
             status = response.readline()
             rawHeaders = response
-            #pprint.pprint(rawHeaders)
         else:
             # This is an HTTP 200 response
             rawHeaders = response.info().headers
