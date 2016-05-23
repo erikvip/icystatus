@@ -61,14 +61,13 @@ def fetchStatus(urls = []):
             if ':' in name:
                 name = name.split(':', 1)[0]
         
-
-        #status = "{0} :: {1}".format(StreamUrl, meta['StreamTitle'])
         
         status = { 
             'StreamUrl': StreamUrl,  
             'CurrentTrack': meta['StreamTitle'], 
             'Name' : name, 
-            'LaunchUrl' : meta['LaunchUrl']
+            'LaunchUrl' : meta['LaunchUrl'], 
+            'meta' : meta
         }
         
         response.append( status )

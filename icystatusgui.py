@@ -11,6 +11,8 @@ from subprocess import Popen
 import os
 import pprint
 
+
+
 def main():
     gui = icyStatusGui()
 
@@ -92,8 +94,9 @@ class icyStatusGui:
             'http://108.61.73.115:8052',
             'http://listen.radionomy.com/AdultAlternative',
         ]
-
-        self.rowCounter = 1
+        urls = [
+            'http://xstream1.somafm.com:8062',
+        ]
         for url in urls:
             self.icyStatus(url)
 
@@ -108,21 +111,26 @@ class icyStatusGui:
         
         stats = fetchStatus([url])
       
-        r = self.rowCounter
+        # Current row pointer. Default is 1, as the first row are the headers
+        if not hasattr(self, 'rowCounter'):
+            self.rowCounter = 1
 
         for i in stats:
 
 #            self.status.set("Refreshing {0}...".format(i['StreamUrl'] ))
 #            self.root.update_idletasks()
 
+            r = self.rowCounter
+
             Label(self.grid, text=i['Name'][:30], bg="#EEEEEE").grid(row = r, column=0, sticky="w", padx=5, pady=1)
             Label(self.grid, text=i['StreamUrl'][:30]).grid(row = r, column=1, sticky="w", padx=5, pady=1)
             Label(self.grid, text=i['CurrentTrack'][:30]).grid(row = r, column=2, sticky="w")
 
             Button(self.grid, text="Launch", command=lambda u=i['LaunchUrl']: self.launchStream(u)).grid(row = r, column=3)
+            Button(self.grid, text="Info", command=lambda d = i: self.showStreamInfoWindow(d)).grid(row = r, column=4)
 
-            r = r + 1;
-            self.rowCounter = r
+
+            self.rowCounter = self.rowCounter + 1
 
 
 
@@ -130,7 +138,47 @@ class icyStatusGui:
         '''Launch stream in external player'''
         Popen(['/usr/bin/vlc', url])
 
+    def showStreamInfoWindow(self, info):
+        ''' Popup window with additional stream details'''
+        win = Toplevel(self.root)
+        win.title(info['Name'])
 
+        scrollbar = Scrollbar(win)
+        scrollbar.pack(side=RIGHT, fill=Y)
+        frameContainer = Canvas(win, yscrollcommand=scrollbar.set)
+        scrollbar.config(command=frameContainer.yview)
+        frame = Text(frameContainer)
+        
+
+
+        win.geometry("640x480+150+150")
+
+        r = 0
+        for i, k in enumerate(info['meta']['headers']):
+            v = info['meta']['headers'][k]
+            Label(frame, text=k, font="Verdana 10 bold").grid(row=r, column=0, sticky="W")
+            Label(frame, text=v).grid(row=r, column=1, sticky="W")
+
+            r = r + 1
+
+        Label(frame, text="Raw metadata:", font="Verdana 10 bold").grid(row=r, columnspan=1, sticky="W")
+        r = r + 1
+        Label(frame,
+                text=info['meta']['rawMetaPacket'], 
+                wraplength=300
+        ).grid(row=r, columnspan=2, sticky="W")
+
+        '''
+        r = r + 1
+        Label(frame, 
+            text="The Text widget provides formatted text display. It allows you to display and edit text with various styles and attributes. The widget also supports embedded images and windows.The Text widget provides formatted text display. It allows you to display and edit text with various styles and attributes. The widget also supports embedded images and windows.The Text widget provides formatted text display. It allows you to display and edit text with various styles and attributes. The widget also supports embedded images and windows.The Text widget provides formatted text display. It allows you to display and edit text with various styles and attributes. The widget also supports embedded images and windows.The Text widget provides formatted text display. It allows you to display and edit text with various styles and attributes. The widget also supports embedded images and windows.The Text widget provides formatted text display. It allows you to display and edit text with various styles and attributes. The widget also supports embedded images and windows.The Text widget provides formatted text display. It allows you to display and edit text with various styles and attributes. The widget also supports embedded images and windows.The Text widget provides formatted text display. It allows you to display and edit text with various styles and attributes. The widget also supports embedded images and windows.The Text widget provides formatted text display. It allows you to display and edit text with various styles and attributes. The widget also supports embedded images and windows.The Text widget provides formatted text display. It allows you to display and edit text with various styles and attributes. The widget also supports embedded images and windows.The Text widget provides formatted text display. It allows you to display and edit text with various styles and attributes. The widget also supports embedded images and windows.",
+            wraplength=300
+        ).grid(row=r, columnspan=2, sticky="W")
+        '''
+
+        win.mainloop()
 
 if __name__ == "__main__":
     main()
+
+

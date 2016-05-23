@@ -14,3 +14,6 @@ This is a learning project to familiarize myself with Python/Tk, with a focus on
 * Compiling to windows compatible EXE with no external dependancies
 
 
+Requires
+--------
+tks ?
